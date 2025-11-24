@@ -1,5 +1,13 @@
 // 初始化语言
 document.addEventListener('DOMContentLoaded', () => {
+    // 版本迁移：如果是旧版本用户（没有languageVersion标记），重置为英文
+    const languageVersion = localStorage.getItem('languageVersion');
+    if (!languageVersion) {
+        // 首次使用新版本，重置语言为英文
+        localStorage.setItem('language', 'en-US');
+        localStorage.setItem('languageVersion', '1.0');
+    }
+    
     const savedLang = getCurrentLanguage();
     document.getElementById('languageSelect').value = savedLang;
     updateUILanguage();

@@ -12,27 +12,28 @@ echo.
 REM 检查 Node.js 是否安装
 where node > nul 2>&1
 if %errorlevel% neq 0 (
-    echo 错误：未检测到 Node.js
-    echo 请先安装 Node.js: https://nodejs.org/
+    echo Error / 错误：Node.js not detected / 未检测到 Node.js
+    echo Please install Node.js / 请先安装 Node.js: https://nodejs.org/
     pause
     exit /b
 )
 
-echo 当前 Node 版本:
+echo Node version / 当前 Node 版本:
 node -v
-echo 当前 npm 版本:
+echo npm version / 当前 npm 版本:
 npm -v
 echo.
 
-echo 正在检查项目依赖...
+echo Checking dependencies... / 正在检查项目依赖...
 
 REM 检查 node_modules 是否存在
 if not exist "node_modules" (
-    echo 依赖未安装，正在安装...
+    echo Installing dependencies... / 依赖未安装，正在安装...
     call npm install
     if %errorlevel% neq 0 (
         echo.
-        echo 依赖安装失败，请检查网络或 Node.js 安装。
+        echo Installation failed / 依赖安装失败
+        echo Please check network or Node.js / 请检查网络或 Node.js 安装
         pause
         exit /b
     )
@@ -42,15 +43,15 @@ if not exist "node_modules" (
     for %%A in (node_modules) do set "nm_time=%%~tA"
     
     if "!pkg_time!" gtr "!nm_time!" (
-        echo 检测到 package.json 已更新，重新安装依赖...
+        echo package.json updated, reinstalling... / 检测到 package.json 已更新，重新安装依赖...
         call npm install
     ) else (
-        echo 依赖已安装且为最新版本，跳过安装。
+        echo Dependencies up to date, skipping... / 依赖已安装且为最新版本，跳过安装。
     )
 )
 
 echo.
-echo 启动应用程序...
+echo Starting application... / 启动应用程序...
 call npm start
 
 pause
