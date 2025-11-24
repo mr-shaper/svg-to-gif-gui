@@ -1,0 +1,21 @@
+{
+  "name": "svg-to-gif-gui",
+  "version": "1.0.0",
+  "description": "SVG Animation to GIF Converter (Pure JS)",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack-mac": "electron-builder --mac --dir",
+    "pack-win": "electron-builder --win --dir"
+  },
+  "dependencies": {
+    "puppeteer": "^23.0.0",
+    "gif-encoder": "^0.7.2",
+    "pngjs": "^7.0.0",
+    "png-file-stream": "^1.1.0"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  }
+}

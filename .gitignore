@@ -1,0 +1,64 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Runtime
+runtime/
+
+# Output files
+*.gif
+temp_frames/
+temp_*.html
+
+# macOS
+.DS_Store
+*.command.command
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Temporary files
+*_compressed.gif
+*.tmp
+
+# Build output
+dist/
+build/
+out/
+
+# Test files
+test/
+tests/
+*.test.js
+*.spec.js
