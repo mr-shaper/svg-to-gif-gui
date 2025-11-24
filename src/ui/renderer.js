@@ -95,8 +95,8 @@ btnSelect.addEventListener('click', async () => {
         }
         
         // 自动检测 SVG 信息（尺寸 + 时长）
-        durationHint.textContent = '(检测中...)';
-        originalSizeHint.textContent = '(检测中...)';
+        durationHint.textContent = t('detecting');
+        originalSizeHint.textContent = t('detecting');
         btnDetect.disabled = true;
         
         try {
@@ -107,25 +107,34 @@ btnSelect.addEventListener('click', async () => {
                 // 更新时长
                 if (svgInfo.duration > 0) {
                     durationInput.value = svgInfo.duration;
-                    durationHint.textContent = `(已检测: ${svgInfo.duration}秒)`;
+                    durationHint.textContent = t('detected', svgInfo.duration);
                     durationHint.style.color = 'var(--color-success)';
                 } else {
-                    durationHint.textContent = '(未检测到动画)';
+                    durationHint.textContent = t('noAnimation');
                     durationHint.style.color = 'var(--color-text-secondary)';
                 }
                 
                 // 显示原始尺寸
-                originalSizeHint.textContent = `(原始: ${svgInfo.width}x${svgInfo.height})`;
+                originalSizeHint.textContent = t('originalSizeHint', svgInfo.width, svgInfo.height);
                 originalSizeHint.style.color = 'var(--color-text-secondary)';
                 
                 // 填充尺寸预设选项
-                sizePreset.innerHTML = '<option value="custom">自定义尺寸</option>';
+                sizePreset.innerHTML = `<option value="custom">${t('customSize')}</option>`;
                 
                 if (svgInfo.recommendations && svgInfo.recommendations.length > 0) {
                     svgInfo.recommendations.forEach(rec => {
                         const option = document.createElement('option');
                         option.value = `${rec.width}x${rec.height}`;
-                        option.textContent = `${rec.label} - ${rec.width}x${rec.height} (${rec.scenario})`;
+                        // 翻译标签和场景描述
+                        const labelKey = rec.label.includes('原始') ? 'originalSizeLabel' :
+                                        rec.label.includes('推荐') ? 'recommendedSize' :
+                                        rec.label.includes('压缩') ? 'compressedSize' :
+                                        rec.label.includes('小尺寸') ? 'smallSize' : rec.label;
+                        const scenarioKey = rec.scenario.includes('高质量') || rec.scenario.includes('High Quality') ? 'highQualityScenario' :
+                                           rec.scenario.includes('网页') || rec.scenario.includes('Web') ? 'webDisplay' :
+                                           rec.scenario.includes('邮件') || rec.scenario.includes('Email') ? 'emailAttachment' :
+                                           rec.scenario.includes('微信') || rec.scenario.includes('Social') ? 'socialMedia' : rec.scenario;
+                        option.textContent = `${t(labelKey)} - ${rec.width}x${rec.height} (${t(scenarioKey)})`;
                         if (rec.recommended) {
                             option.textContent = `⭐ ${option.textContent}`;
                             option.setAttribute('data-recommended', 'true');
@@ -147,12 +156,12 @@ btnSelect.addEventListener('click', async () => {
                     sizePresetGroup.style.display = 'block';
                 }
             } else {
-                durationHint.textContent = '(检测失败)';
+                durationHint.textContent = t('detectFailed');
                 durationHint.style.color = 'var(--color-danger)';
             }
         } catch (error) {
             console.error('检测失败:', error);
-            durationHint.textContent = '(检测失败)';
+            durationHint.textContent = t('detectFailed');
             durationHint.style.color = 'var(--color-danger)';
         } finally {
             btnDetect.disabled = false;
@@ -172,12 +181,12 @@ btnSavePath.addEventListener('click', async () => {
 // Detect Duration (Manual) - 重新检测所有信息
 btnDetect.addEventListener('click', async () => {
     if (!currentInputPath) {
-        alert('请先选择一个 SVG 文件');
+        alert(t('selectSvgFirst'));
         return;
     }
     
-    durationHint.textContent = '(检测中...)';
-    originalSizeHint.textContent = '(检测中...)';
+    durationHint.textContent = t('detecting');
+    originalSizeHint.textContent = t('detecting');
     btnDetect.disabled = true;
     
     try {
@@ -188,25 +197,34 @@ btnDetect.addEventListener('click', async () => {
             // 更新时长
             if (svgInfo.duration > 0) {
                 durationInput.value = svgInfo.duration;
-                durationHint.textContent = `(已检测: ${svgInfo.duration}秒)`;
+                durationHint.textContent = t('detected', svgInfo.duration);
                 durationHint.style.color = 'var(--color-success)';
             } else {
-                durationHint.textContent = '(未检测到动画)';
+                durationHint.textContent = t('noAnimation');
                 durationHint.style.color = 'var(--color-text-secondary)';
             }
             
             // 显示原始尺寸
-            originalSizeHint.textContent = `(原始: ${svgInfo.width}x${svgInfo.height})`;
+            originalSizeHint.textContent = t('originalSizeHint', svgInfo.width, svgInfo.height);
             originalSizeHint.style.color = 'var(--color-text-secondary)';
             
             // 更新尺寸预设
-            sizePreset.innerHTML = '<option value="custom">自定义尺寸</option>';
+            sizePreset.innerHTML = `<option value="custom">${t('customSize')}</option>`;
             
             if (svgInfo.recommendations && svgInfo.recommendations.length > 0) {
                 svgInfo.recommendations.forEach(rec => {
                     const option = document.createElement('option');
                     option.value = `${rec.width}x${rec.height}`;
-                    option.textContent = `${rec.label} - ${rec.width}x${rec.height} (${rec.scenario})`;
+                    // 翻译标签和场景描述
+                    const labelKey = rec.label.includes('原始') ? 'originalSizeLabel' :
+                                    rec.label.includes('推荐') ? 'recommendedSize' :
+                                    rec.label.includes('压缩') ? 'compressedSize' :
+                                    rec.label.includes('小尺寸') ? 'smallSize' : rec.label;
+                    const scenarioKey = rec.scenario.includes('高质量') || rec.scenario.includes('High Quality') ? 'highQualityScenario' :
+                                       rec.scenario.includes('网页') || rec.scenario.includes('Web') ? 'webDisplay' :
+                                       rec.scenario.includes('邮件') || rec.scenario.includes('Email') ? 'emailAttachment' :
+                                       rec.scenario.includes('微信') || rec.scenario.includes('Social') ? 'socialMedia' : rec.scenario;
+                    option.textContent = `${t(labelKey)} - ${rec.width}x${rec.height} (${t(scenarioKey)})`;
                     if (rec.recommended) {
                         option.textContent = `⭐ ${option.textContent}`;
                         option.setAttribute('data-recommended', 'true');
@@ -217,12 +235,12 @@ btnDetect.addEventListener('click', async () => {
                 sizePresetGroup.style.display = 'block';
             }
         } else {
-            durationHint.textContent = '(检测失败)';
+            durationHint.textContent = t('detectFailed');
             durationHint.style.color = 'var(--color-danger)';
         }
     } catch (error) {
         console.error('检测失败:', error);
-        durationHint.textContent = '(检测失败)';
+        durationHint.textContent = t('detectFailed');
         durationHint.style.color = 'var(--color-danger)';
     } finally {
         btnDetect.disabled = false;
@@ -232,7 +250,7 @@ btnDetect.addEventListener('click', async () => {
 // Start Conversion
 btnStart.addEventListener('click', () => {
     if (!currentInputPath) {
-        alert('请先选择一个 SVG 文件');
+        alert(t('selectSvgFirst'));
         return;
     }
 
@@ -252,7 +270,7 @@ btnStart.addEventListener('click', () => {
     resultArea.style.display = 'none';
     progressBar.style.display = 'block';
     progressFill.style.width = '0%';
-    statusText.textContent = '初始化...';
+    statusText.textContent = t('initializing');
 
     window.electronAPI.startConversion(config);
 });
@@ -264,7 +282,7 @@ window.electronAPI.onProgress((data) => {
 });
 
 window.electronAPI.onComplete((result) => {
-    statusText.textContent = '完成!';
+    statusText.textContent = t('complete');
     progressFill.style.width = '100%';
     btnStart.disabled = false;
     resultArea.style.display = 'block';
@@ -273,16 +291,16 @@ window.electronAPI.onComplete((result) => {
     const sizeMB = result.sizeMB || (result.size / (1024 * 1024)).toFixed(2);
     const maxSize = parseFloat(maxSizeInput.value);
     
-    let sizeHTML = `<div>文件大小: <span class="highlight">${sizeMB} MB</span></div>`;
+    let sizeHTML = `<div>${t('fileSize', sizeMB)}</div>`;
     
     if (result.compressed) {
         const savedMB = (result.originalSizeMB - sizeMB).toFixed(2);
         const savedPercent = ((1 - sizeMB / result.originalSizeMB) * 100).toFixed(1);
-        sizeHTML += `<div class="success">✓ 已自动压缩 (原: ${result.originalSizeMB} MB, 节省: ${savedMB} MB / ${savedPercent}%)</div>`;
+        sizeHTML += `<div class="success">✓ ${t('autoCompressed')} (${t('originalFileSize', result.originalSizeMB)}, ${t('saved', savedMB, savedPercent)})</div>`;
     } else if (parseFloat(sizeMB) > maxSize) {
-        sizeHTML += `<div class="warning">⚠ 文件超过 ${maxSize} MB，建议降低质量或分辨率</div>`;
+        sizeHTML += `<div class="warning">⚠ ${t('sizeWarning', maxSize)}</div>`;
     } else {
-        sizeHTML += `<div class="success">✓ 文件大小符合要求</div>`;
+        sizeHTML += `<div class="success">✓ ${t('sizeOk')}</div>`;
     }
     
     sizeInfo.innerHTML = sizeHTML;
@@ -293,7 +311,7 @@ window.electronAPI.onComplete((result) => {
 });
 
 window.electronAPI.onError((msg) => {
-    statusText.textContent = `错误: ${msg}`;
+    statusText.textContent = `${t('error')}: ${msg}`;
     statusText.style.color = '#da3633';
     btnStart.disabled = false;
 });

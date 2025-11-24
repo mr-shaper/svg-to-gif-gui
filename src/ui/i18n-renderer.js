@@ -143,7 +143,59 @@ function updateUILanguage() {
     document.getElementById('btnOpenFolder').textContent = t('openFolder');
     document.getElementById('footerRunningOn').textContent = t('runningOn');
     
+    // 更新尺寸预设下拉框中的"自定义尺寸"选项
+    const sizePresetSelect = document.getElementById('sizePreset');
+    if (sizePresetSelect && sizePresetSelect.options.length > 0) {
+        const firstOption = sizePresetSelect.options[0];
+        if (firstOption.value === 'custom') {
+            firstOption.textContent = t('customSize');
+        }
+        // 更新其他预设选项（如果存在）
+        updateSizePresetLabels();
+    }
+    
     // 更新 HTML lang 属性
     document.documentElement.lang = lang;
+}
+
+// 更新尺寸预设选项的翻译
+function updateSizePresetLabels() {
+    const sizePresetSelect = document.getElementById('sizePreset');
+    if (!sizePresetSelect) return;
+    
+    for (let i = 1; i < sizePresetSelect.options.length; i++) {
+        const option = sizePresetSelect.options[i];
+        const value = option.value;
+        const isRecommended = option.getAttribute('data-recommended') === 'true';
+        
+        // 从 value 中提取尺寸信息
+        const [width, height] = value.split('x').map(v => parseInt(v));
+        if (!width || !height) continue;
+        
+        // 根据选项的内容判断标签类型
+        let labelKey = 'customSize';
+        let scenarioKey = 'webDisplay';
+        
+        // 简单的判断逻辑 - 根据尺寸范围判断
+        const originalText = option.textContent.replace('⭐ ', '');
+        if (originalText.includes('100%') || originalText.includes('原始')) {
+            labelKey = 'originalSizeLabel';
+            scenarioKey = 'highQualityScenario';
+        } else if (originalText.includes('75%') || originalText.includes('推荐')) {
+            labelKey = 'recommendedSize';
+            scenarioKey = 'webDisplay';
+        } else if (originalText.includes('50%') || originalText.includes('压缩')) {
+            labelKey = 'compressedSize';
+            scenarioKey = 'emailAttachment';
+        } else if (originalText.includes('Social') || originalText.includes('社交') || originalText.includes('微信')) {
+            labelKey = 'smallSize';
+            scenarioKey = 'socialMedia';
+        }
+        
+        option.textContent = `${t(labelKey)} - ${width}x${height} (${t(scenarioKey)})`;
+        if (isRecommended) {
+            option.textContent = `⭐ ${option.textContent}`;
+        }
+    }
 }
 
