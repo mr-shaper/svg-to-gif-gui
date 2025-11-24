@@ -1,10 +1,11 @@
 @echo off
 chcp 65001 > nul
-title SVG to GIF 一键启动
+title SVG to GIF Converter / 转换器
 color 0A
 
 echo ============================================
-echo   SVG to GIF 一键启动 (优化版)
+echo   SVG to GIF Converter / 转换器
+echo   One-Click Startup / 一键启动
 echo ============================================
 echo.
 

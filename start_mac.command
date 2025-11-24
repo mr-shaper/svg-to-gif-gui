@@ -11,7 +11,8 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 echo -e "${GREEN}============================================${NC}"
-echo -e "${GREEN}   SVG to GIF 一键启动 (最终稳定版)    ${NC}"
+echo -e "${GREEN}   SVG to GIF Converter 转换器          ${NC}"
+echo -e "${GREEN}   One-Click Startup / 一键启动         ${NC}"
 echo -e "${GREEN}============================================${NC}"
 
 # 1. 尝试添加常用路径

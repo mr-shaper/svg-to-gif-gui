@@ -175,7 +175,7 @@ const translations = {
 
 // 获取当前语言
 function getCurrentLanguage() {
-    return localStorage.getItem('language') || 'zh-CN';
+    return localStorage.getItem('language') || 'en-US';
 }
 
 // 设置语言
