@@ -1,6 +1,6 @@
 {
   "name": "svg-to-gif-gui",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "description": "SVG Animation to GIF Converter (Pure JS)",
   "main": "src/main.js",
   "scripts": {
